@@ -1,6 +1,4 @@
 # Vagrant-Ansible-Docker_Nginx
-# @Author: Anand Dasari
-# @Date  : 13-Sept-2022
 
 # Description:
 Demo code to showcase the Nginx serving a simple HTML page running in docker container on  Vagrant machine using Ansible provisioner.
