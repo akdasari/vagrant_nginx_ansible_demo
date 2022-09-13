@@ -1,0 +1,13 @@
+---
+- hosts: all
+  gather_facts: yes
+  become: true
+  roles:
+    - setup_docker
+    - setup_nginx_docker_container
+
+  tasks:
+  - name: "verify nginx serving traffic or not"
+    shell: "curl 192.168.56.10"
+    register: website_tests
+    failed_when: "'error' in website_tests.stderr"

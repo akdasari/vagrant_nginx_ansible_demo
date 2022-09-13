@@ -1,0 +1,24 @@
+- name: "Create a temporary workspace to place all necessary file to build nginx docker image"
+  tempfile:
+    state: directory
+  register: temp_dir_path
+
+- name: "Copy all necessary file to build nginx docker image to the temp directory"
+  copy:
+    src: "{{ role_path }}/files/{{item}}"
+    dest: "{{temp_dir_path.path}}/"
+  with_items:
+    - Dockerfile
+    - nginx.conf
+    - index.html
+
+- name: "Build nignx docker image"
+  command: docker build -t secure-nginx:latest {{temp_dir_path.path}}
+  
+- name: "start the docker container"
+  docker_container:
+    name: samplewebsite
+    image: "secure-nginx:latest"
+    state: started
+    ports:
+     - "80:8080"

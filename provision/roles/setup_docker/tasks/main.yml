@@ -1,0 +1,23 @@
+- name: "Installing Prerequisite packages"
+  yum: 
+    name: "{{ item }}"
+    state: latest
+  with_items: 
+    - python-docker-py
+    - yum-utils
+    - device-mapper-persistent-data
+    - lvm2
+- name: "Configuring Docker community edition repo" 
+  get_url: 
+    dest: /etc/yum.repos.d/docker-ce.repo
+    mode: 420
+    url: "https://download.docker.com/linux/centos/docker-ce.repo"
+- name: "Installing latest version Docker "
+  yum: 
+    name: docker-ce
+    state: present
+- name: "Enabling and Starting Docker service"
+  service: 
+    enabled: true
+    name: docker
+    state: started
